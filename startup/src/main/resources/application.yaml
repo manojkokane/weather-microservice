@@ -1,9 +1,21 @@
 spring:
   profiles.active: dev
 
+app:
+  info:
+    version: 1.0.0
+    title: Tenera Weather Service
+    description: This is an implementation for Tenera backend engineer interview
+    license: Digital Rocks GmbH 2021
+    contact: https://en.tenera.io/
+
 server:
   servlet:
     context-path: /api/v1
+
+springdoc:
+  api-docs:
+    path: /api-docs
 
 weatherService:
   config:

@@ -35,6 +35,7 @@
 		<neflix.feign.jackson.version>8.16.2</neflix.feign.jackson.version>
 		<spotify.docker.pugin.version>1.4.13</spotify.docker.pugin.version>
 		<docker.repo.user>testuser</docker.repo.user>
+		<springdoc.openui.version>1.5.2</springdoc.openui.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -81,6 +82,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc.openui.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc.openui.version}</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

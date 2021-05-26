@@ -26,6 +26,10 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>2020.0.3-SNAPSHOT</spring-cloud.version>
+		<io.swagger.annotations.version>1.5.21</io.swagger.annotations.version>
+		<io.swagger.models.version>1.6.0</io.swagger.models.version>
+		<fasterxml.jackson.annotations.version>2.10.3</fasterxml.jackson.annotations.version>
+		<io.swagger.codegen.plugin>3.0.18</io.swagger.codegen.plugin>
 	</properties>
 	<dependencies>
 		<dependency>

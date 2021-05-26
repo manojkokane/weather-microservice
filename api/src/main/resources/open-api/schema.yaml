@@ -1,0 +1,173 @@
+openapi: 3.0.0
+
+info:
+  version: 1.0.0
+  title: Tenera Weather Service
+  description:
+    This is an implementation for Tenera backend engineer interview
+
+servers:
+  - url: http://localhost:9090/api/v1
+    description: API base URL
+
+tags:
+  - name: "Weather APIs"
+
+paths:
+  /weather/current:
+    get:
+      tags:
+        - "Weather APIs"
+      operationId: getCurrentWeatherForCity
+      parameters:
+        - in: query
+          name: location
+          required: true
+          schema:
+            type: string
+            minLength: 2
+            maxLength: 50
+            pattern: '[a-zA-Z,]+'
+          description: provide city name
+        - in: header
+          name: x-open-weather-api-key
+          required: true
+          schema:
+            type: string
+          description: provide open weather api key
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherResponse'
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: UNAUTHERIZED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "502":
+          description: BAD GATEWAY
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "504":
+          description: GATEWAY TIMEOUT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /weather/history:
+    get:
+      tags:
+        - "Weather APIs"
+      operationId: getWeatherHistoryForCity
+      parameters:
+        - in: query
+          name: location
+          required: true
+          schema:
+            type: string
+            minLength: 2
+            maxLength: 50
+            pattern: '[a-zA-Z,]+'
+          description: provide city name
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherHistoryResponse'
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: UNAUTHERIZED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    WeatherResponse:
+      description: Weather Response Model
+      type: object
+      properties:
+        temp:
+          description: Temperature
+          type: number
+          format: double
+        pressure:
+          description: Air pressure
+          type: number
+          format: double
+        umbrella:
+          description: Need umbrella?
+          type: boolean
+          default: false
+
+    WeatherHistoryResponse:
+      description: Historic Weather Response Model
+      type: object
+      properties:
+        avg_temp:
+          description: Average temperature
+          type: number
+          format: double
+        avg_pressure:
+          description: Average air pressure
+          type: number
+          format: double
+        history:
+          description: Weather history
+          type: array
+          items:
+            $ref: '#/components/schemas/WeatherResponse'
+
+    ErrorResponse:
+      description: Error Response Model
+      type: object
+      properties:
+        code:
+          description: Error code
+          type: string
+        message:
+          description: Error message
+          type: string
+        reason:
+          description: Potential reason
+          type: string
+        suggestion:
+          description: Suggestion to fix the error
+          type: string
+        resource:
+          description: Reource url
+          type: string

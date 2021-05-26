@@ -1,9 +1,11 @@
 package com.terena.interview.solution.weather.controllers.test;
 
 import com.terena.interview.solution.weather.common.model.CurrentWeatherDataDTO;
+import com.terena.interview.solution.weather.common.model.QueryResultDTO;
 import com.terena.interview.solution.weather.common.model.WeatherConditionDTO;
 import com.terena.interview.solution.weather.common.model.WeatherDataDTO;
 import com.terena.interview.solution.weather.controllers.WeatherController;
+import com.terena.interview.solution.weather.models.WeatherHistoryResponse;
 import com.terena.interview.solution.weather.models.WeatherResponse;
 import com.terena.interview.solution.weather.services.HistoryWeatherService;
 import com.terena.interview.solution.weather.services.OpenWeatherService;
@@ -49,6 +51,21 @@ public class WeatherControllerTest {
         assertTrue(weatherResponse.isUmbrella());
     }
 
+    @Test
+    public void getWeatherHistoryForCityTest() {
+        List<QueryResultDTO> queryResultDTOList = createHistoryWeatherResponse();
+        when(historyWeatherService.retrieveHistoricalDataFromDB(any())).thenReturn(queryResultDTOList);
+        ResponseEntity<WeatherHistoryResponse> weatherHistoryResponseResponseEntity = weatherController.getWeatherHistoryForCity("Berlin");
+
+        HttpStatus httpStatus = weatherHistoryResponseResponseEntity.getStatusCode();
+        WeatherHistoryResponse weatherHistoryResponse = weatherHistoryResponseResponseEntity.getBody();
+
+        assertEquals(200, httpStatus.value());
+        assertEquals(Double.valueOf(10.3), weatherHistoryResponse.getAvgTemp());
+        assertEquals(Double.valueOf(1005.6), weatherHistoryResponse.getAvgPressure());
+        assertEquals(2, weatherHistoryResponse.getHistory().size());
+    }
+
     private CurrentWeatherDataDTO createCurrentWeatherDataDTO() {
 
         WeatherConditionDTO weatherConditionDTO = WeatherConditionDTO.builder()
@@ -67,5 +84,25 @@ public class WeatherControllerTest {
                 .weatherDataDTO(weatherDataDTO)
                 .weatherConditionDTOS(weatherConditionDTOList)
                 .build();
+    }
+
+    private List<QueryResultDTO> createHistoryWeatherResponse() {
+
+        QueryResultDTO queryResultDTO1 = QueryResultDTO.builder()
+                .responseTemp(10.3)
+                .responsePressure(1005.6)
+                .responseUmbrella(false)
+                .build();
+
+        QueryResultDTO queryResultDTO2 = QueryResultDTO.builder()
+                .responseTemp(10.3)
+                .responsePressure(1005.6)
+                .responseUmbrella(true)
+                .build();
+        List<QueryResultDTO> queryResultDTOList = new ArrayList<>();
+        queryResultDTOList.add(queryResultDTO1);
+        queryResultDTOList.add(queryResultDTO2);
+
+        return queryResultDTOList;
     }
 }

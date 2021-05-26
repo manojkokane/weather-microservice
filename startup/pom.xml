@@ -11,6 +11,13 @@
 
     <artifactId>startup</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.terena.interview.solution.weather</groupId>
+            <artifactId>controllers</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>

@@ -65,6 +65,10 @@
 			<version>${neflix.feign.jackson.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -97,6 +101,21 @@
 			<dependency>
 				<groupId>com.terena.interview.solution.weather</groupId>
 				<artifactId>connectors</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.terena.interview.solution.weather</groupId>
+				<artifactId>api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.terena.interview.solution.weather</groupId>
+				<artifactId>services</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.terena.interview.solution.weather</groupId>
+				<artifactId>controllers</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

@@ -4,6 +4,10 @@ import com.terena.interview.solution.weather.common.restclient.feign.AbstractFei
 import com.terena.interview.solution.weather.connectors.openwather.proxy.WeatherDataProxy;
 import lombok.NoArgsConstructor;
 
+/**
+ * Current Data Proxy Client
+ * This builds proxy client for current data and retrieves result
+ */
 @NoArgsConstructor
 public class CurrentDataProxyClient extends AbstractFeignProxyClient {
 

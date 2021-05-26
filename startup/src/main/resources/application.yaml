@@ -2,3 +2,15 @@ server:
   port: 9090
   servlet:
     context-path: /api/v1
+
+weatherService:
+  config:
+    weatherDataApi:
+      version: 2.5
+      unit: metric
+      current:
+        weatherDataApiBaseUrl: http://api.openweathermap.org/data
+        weatherDataApiEndpoint: /current
+        httpMethod: GET
+      history:
+        count: 5

@@ -36,7 +36,7 @@ public class OpenWeatherServiceImpl implements OpenWeatherService {
      */
     @Override
     public CurrentWeatherDataDTO retrieveCurrentDataFromOpenWeather(String location, String xOpenWeatherApiKey) {
-        log.info("Retrieving current weather data for location: " + location);
+        log.info(String.format("Retrieving current weather data for location: ", location));
 
         String openWeatherUrl = ServiceUtil.getOpenWeatherUrl(weatherServiceApplicationConfig.getCurrentWeatherDataApiBaseUrl(), weatherServiceApplicationConfig.getWeatherDataApiVersion());
         Map<String, Collection<String>> currentDataRequestQueries = ServiceUtil.getQueriesForCurrentData(location, xOpenWeatherApiKey, weatherServiceApplicationConfig);
@@ -45,6 +45,9 @@ public class OpenWeatherServiceImpl implements OpenWeatherService {
 
         FeignProxyClient client = openWeatherConnector.connectTOCurrentDataProxyClient(openWeatherUrl, currentDataRequestQueries);
         CurrentWeatherDataDTO currentWeatherDataDTO = (CurrentWeatherDataDTO) client.execute();
+
+        log.info(String.format("Current weather data for location %s has been retrieved successfully: ", location));
+        log.debug(String.format("Current weather data for location %s is-> %s: ", location, currentWeatherDataDTO));
 
         return currentWeatherDataDTO;
     }

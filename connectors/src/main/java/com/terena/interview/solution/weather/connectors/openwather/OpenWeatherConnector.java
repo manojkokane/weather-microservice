@@ -4,24 +4,26 @@ import com.terena.interview.solution.weather.common.restclient.feign.AbstractFei
 import com.terena.interview.solution.weather.common.restclient.feign.FeignProxyClient;
 import com.terena.interview.solution.weather.connectors.openwather.client.CurrentDataProxyClient;
 import com.terena.interview.solution.weather.connectors.openwather.proxy.WeatherDataProxy;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * Connector class to setup connection with intended target proxy
+ */
 @Slf4j
 @Component
 public class OpenWeatherConnector {
 
-    @PostConstruct
-    public void init() {
-
-    }
-
-    @SneakyThrows
+    /**
+     * Sets up connection properties to connect to current data proxy of 3rd party OpenWeather service
+     * return rest client instance for intended target proxy
+     * @param clientUrl
+     * @param requestQueries
+     * @return @{@link FeignProxyClient}
+     */
     public FeignProxyClient connectTOCurrentDataProxyClient(String clientUrl, Map<String, Collection<String>> requestQueries) {
         log.info(String.format("Setting up connection properties to connect to OpenWeather's current data proxy client"));
         AbstractFeignProxyClient dataProxyClient = new CurrentDataProxyClient();

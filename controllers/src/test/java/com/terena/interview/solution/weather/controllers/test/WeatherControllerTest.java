@@ -5,6 +5,7 @@ import com.terena.interview.solution.weather.common.model.WeatherConditionDTO;
 import com.terena.interview.solution.weather.common.model.WeatherDataDTO;
 import com.terena.interview.solution.weather.controllers.WeatherController;
 import com.terena.interview.solution.weather.models.WeatherResponse;
+import com.terena.interview.solution.weather.services.HistoryWeatherService;
 import com.terena.interview.solution.weather.services.OpenWeatherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,12 +24,14 @@ import static org.mockito.Mockito.when;
 public class WeatherControllerTest {
 
     private OpenWeatherService openWeatherService;
+    private HistoryWeatherService historyWeatherService;
     private WeatherController weatherController;
 
     @BeforeEach
     public void setUp() {
         openWeatherService = mock(OpenWeatherService.class);
-        weatherController = new WeatherController(openWeatherService);
+        historyWeatherService = mock(HistoryWeatherService.class);
+        weatherController = new WeatherController(openWeatherService, historyWeatherService);
     }
 
     @Test

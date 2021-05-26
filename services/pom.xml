@@ -20,6 +20,10 @@
             <groupId>com.terena.interview.solution.weather</groupId>
             <artifactId>connectors</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.terena.interview.solution.weather</groupId>
+            <artifactId>repositories</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

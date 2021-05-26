@@ -17,6 +17,10 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
+/**
+ * Global Error Handler
+ * All the exceptions thrown by microservice will be caught and resolved here
+ */
 @Slf4j
 @RestControllerAdvice
 public class RestExceptionHandler {

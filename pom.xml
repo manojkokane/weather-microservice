@@ -118,6 +118,11 @@
 				<artifactId>controllers</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.terena.interview.solution.weather</groupId>
+				<artifactId>repositories</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

@@ -11,6 +11,7 @@
 		<module>repositories</module>
 		<module>connectors</module>
 		<module>common</module>
+		<module>docker</module>
 	</modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
@@ -31,6 +32,8 @@
 		<fasterxml.jackson.annotations.version>2.10.3</fasterxml.jackson.annotations.version>
 		<io.swagger.codegen.plugin>3.0.18</io.swagger.codegen.plugin>
 		<neflix.feign.jackson.version>8.16.2</neflix.feign.jackson.version>
+		<spotify.docker.pugin.version>1.4.13</spotify.docker.pugin.version>
+		<docker.repo.user>testuser</docker.repo.user>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -90,11 +93,6 @@
 			</dependency>
 			<dependency>
 				<groupId>com.terena.interview.solution.weather</groupId>
-				<artifactId>startup</artifactId>
-				<version>${project.parent}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.terena.interview.solution.weather</groupId>
 				<artifactId>common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -121,6 +119,11 @@
 			<dependency>
 				<groupId>com.terena.interview.solution.weather</groupId>
 				<artifactId>repositories</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.terena.interview.solution.weather</groupId>
+				<artifactId>startup</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

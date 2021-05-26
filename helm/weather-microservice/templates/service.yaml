@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{tpl .Values.services.api.name .}}
+  namespace: "{{tpl .Values.namespace .}}"
+  labels:
+    app: {{tpl .Values.namePrefix .}}weather-microservice
+    release: {{ .Release.Name }}
+spec:
+  ports:
+    - name: https-port
+      port: {{tpl .Values.services.api.port .}}
+  selector:
+    app: {{tpl .Values.namePrefix .}}weather-microservice
+  {{- if eq (tpl .Values.jvm.debug.enable .) "true"}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{tpl .Values.namePrefix .}}{{tpl .Values.services.debug.name .}}
+  namespace: "{{tpl .Values.namespace .}}"
+  labels:
+    app: {{tpl .Values.namePrefix .}}weather-microservice-debug
+    release: {{ .Release.Name }}
+spec:
+  ports:
+    - name: java-debug-port
+      port: {{tpl .Values.services.debug.port .}}
+  selector:
+    app: {{tpl .Values.namePrefix .}}weather-microservice
+  type: NodePort
+  {{- end}}

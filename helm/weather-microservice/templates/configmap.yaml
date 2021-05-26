@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{tpl .Values.namePrefix .}}weather-microservice-environment-yaml
+  namespace: "{{tpl .Values.namespace .}}"
+data:
+  {{ (tpl (.Files.Glob "resources/configs/environment.yaml").AsConfig . ) | indent 2 }}

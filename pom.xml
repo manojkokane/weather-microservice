@@ -12,6 +12,7 @@
 		<module>connectors</module>
 		<module>common</module>
 		<module>docker</module>
+		<module>helm</module>
 	</modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
@@ -124,6 +125,11 @@
 			<dependency>
 				<groupId>com.terena.interview.solution.weather</groupId>
 				<artifactId>startup</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.terena.interview.solution.weather</groupId>
+				<artifactId>docker</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

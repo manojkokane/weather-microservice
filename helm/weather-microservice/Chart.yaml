@@ -1,0 +1,4 @@
+description: CHART-TERENA-weather-microservice
+apiVersion: v1
+name: weather-microservice
+version: 1.0.0

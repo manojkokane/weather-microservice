@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{tpl .Values.namePrefix .}}weather-microservice
+    release: {{ .Release.Name }}
+  name: {{tpl .Values.namePrefix .}}weather-microservice
+  namespace: "{{tpl .Values.namespace .}}"
+spec:
+  replicas: {{tpl .Values.deployment.spec.replicas . | int}}
+  minReadySeconds: 30
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: {{tpl .Values.namePrefix .}}weather-microservice
+  template:
+    metadata:
+      labels:
+        app: {{tpl .Values.namePrefix .}}weather-microservice
+        release: {{ .Release.Name }}
+      name: weather-microservice
+    spec:
+      initContainers:
+        - name: hostpath-permissions-fix
+          image: {{tpl .Values.image.busybox . | quote}}
+          command: ["sh", "-c", "chmod 777 {{tpl .Values.jvm.logs.location .}}"]
+          volumeMounts:
+            - name: java-logs
+              mountPath: {{tpl .Values.jvm.logs.location . | quote}}
+
+  containers:
+    - name: terena-weather-microservice
+      image: {{tpl .Values.image.terena . | quote}}
+      imagePullPolicy: {{tpl .Values.pullPolicy . | quote}}
+      env:
+        - name: LANG
+          value: en_US.UTF-8
+        - name: PNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: HOST_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: APP_VERSION
+          value: {{ .Chart.Version | quote}}
+        - name: JAVA_HEAP_SIZE
+          value: {{.Values.jvm.heap.size | quote}}
+        - name: JAVA_GC_LOGS_ENABLED
+          value: {{.Values.jvm.heap.gc_logs.enable | quote}}
+        {{- if .Values.jvm.heap.gc_logs.enable}}
+        - name: JAVA_GC_LOGS_DIR
+          value: {{tpl .Values.jvm.logs.location .| quote}}
+        - name: JAVA_GC_LOGS_NUMBER
+          value: {{.Values.jvm.heap.gc_logs.files | quote}}
+        - name: JAVA_GC_LOGS_SIZE
+          value: {{.Values.jvm.heap.gc_logs.size | quote}}
+        {{- end}}
+        - name: JAVA_HEAP_DUMPS_ENABLED
+          value: {{.Values.jvm.heap.oom_dumps.enable | quote}}
+        {{- if .Values.jvm.heap.oom_dumps.enable}}
+        - name: JAVA_HEAP_DUMP_DIR
+          value: {{tpl .Values.jvm.logs.location .| quote}}
+        {{- end}}
+        - name: JAVA_DEBUG_ENABLED
+          value: {{tpl .Values.jvm.debug.enable . | quote}}
+        - name: JAVA_DEBUG_SUSPEND
+          value: {{if .Values.jvm.debug.suspend}}'y'{{else}}'n'{{end}}
+        - name: SPRING_ACTIVE_PROFILE
+          value: {{if eq (tpl .Values.developmentMode .) "true" }}dev{{else}}prod{{end}}
+  ports:
+    - containerPort: {{.Values.app.api.port}}
+      name: transport
+      protocol: TCP
+    {{- if eq (tpl .Values.jvm.debug.enable .) "true"}}
+    - containerPort: {{.Values.app.debug.port}}
+    {{- end}}
+    {{if not .Values.jvm.debug.suspend}}
+  readinessProbe:
+    tcpSocket:
+      port: {{.Values.app.api.port}}
+    initialDelaySeconds: {{.Values.readiness.initialDelaySeconds}}
+    periodSeconds: {{.Values.readiness.periodSeconds}}
+    failureThreshold: {{.Values.readiness.failureThreshold}}
+  {{end}}
+  {{if not .Values.jvm.debug.suspend}}
+  livenessProbe:
+    httpGet:
+      path: {{tpl .Values.sys.liveness.context .}}{{tpl .Values.sys.liveness.endpoint .}}
+      port: {{tpl .Values.sys.liveness.port .}}
+      scheme: {{tpl .Values.sys.liveness.scheme .}}
+    initialDelaySeconds: {{tpl .Values.sys.liveness.initialWaitSec .}}
+    periodSeconds: {{tpl .Values.sys.liveness.periodSec .}}
+    failureThreshold: {{tpl .Values.sys.liveness.failureThreshold .}}
+    timeoutSeconds: {{tpl .Values.sys.liveness.timeoutSec .}}
+  {{end}}
+  resources:
+    limits:
+      memory: {{required "A valid container memory limit is required" .Values.deployment.container.resources.memory}}Mi
+      cpu: {{required "A valid container CPU limit is required" .Values.deployment.container.resources.cpu}}m
+    requests:
+        {{- if eq (tpl .Values.developmentMode .) "true" }}
+      memory: {{required "A valid container memory request is required" .Values.deployment.container.resources.requests.memory}}Mi
+        {{- end}}
+      cpu: {{required "A valid container CPU request is required" .Values.deployment.container.resources.requests.cpu}}m
+volumes:
+  - name: localtime
+    hostPath:
+      path: /etc/localtime
+  - name: java-logs
+    hostPath:
+      path: {{tpl .Values.jvm.logs.host_path .}}
+      type: DirectoryOrCreate
+  - name: weather-microservice-volume
+    configMap:
+      name: {{tpl .Values.namePrefix .}}weather-microservice-environment-yaml
+      defaultMode: 0444

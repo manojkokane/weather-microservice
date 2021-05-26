@@ -1,0 +1,75 @@
+namespace: terena
+namePrefix: "terena-"
+pullPolicy: IfNotPresent
+developmentMode: false
+
+services:
+  api:
+    name: terena-weather-microservice
+    port: 8443
+  debug: # Only for 'development' mode
+    name: terena-weather-microservice-debug
+    port: 5005
+
+image:
+  terena: "{{tpl .Values.repository.terena .}}/weather-microservice:1.0.0"
+
+deployment:
+  spec:
+    replicas: 2
+  container:
+    resources:
+      memory: 768
+      cpu: 500
+      requests:
+        memory: 256
+        cpu: 10
+app:
+  # The following ports are internal to docker
+  api:
+    port: 8443
+  debug: # Only for 'development' mode
+    port: 5005
+  config:
+    profile: '{{if eq (tpl .Values.developmentMode .) "true" }}dev{{else}}prod{{end}}'
+    logging:
+      severity: info
+
+jvm:
+  debug:
+    # Whether to run JVM in debug mode
+    enable: "{{tpl .Values.developmentMode .}}"
+    # Whether to suspend JVM at startup waiting for remote debugger to attach
+    suspend: false
+  logs:
+    # K8S node to be mounted to pod
+    host_path: /var/log/java
+    # Local directory in pod filesystem for JVM logs
+    location: /var/log/java
+  heap:
+    size: 256
+    gc_logs:
+      enable: false
+      size: 10
+      files: 5
+    oom_dumps:
+      enable: true
+    errors:
+      enable: true
+sys:
+  liveness:
+    initialDelaySeconds: 60
+    timeoutSec: 10
+    periodSec: 60
+    scheme: HTTPS
+    failureThreshold: 3
+    initialWaitSec: 30
+    port: 9001
+    context: "/sys"
+    endpoint: "/connectivity"
+    exposedEndpoint: "connectivity"
+  healthCheck:
+    periodSec: 30
+    rateLimit:
+      enable: true
+    schedulingInterval: 30

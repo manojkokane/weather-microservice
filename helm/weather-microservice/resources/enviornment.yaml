@@ -1,0 +1,18 @@
+env:
+  server:
+    api:
+      port: {{tpl .Values.services.api.port . | int}}
+    management:
+      port: {{tpl .Values.sys.liveness.port .}}
+      contextPath: {{tpl .Values.sys.liveness.context .}}
+      endpoint: {{tpl .Values.sys.liveness.endpoint .}}
+      exposedEndpoint: {{tpl .Values.sys.liveness.exposedEndpoint .}}
+      health:
+        throttleInterval: {{tpl .Values.sys.liveness.periodSec .}}
+        requestPermits: 1
+      health-check:
+        throttleInterval: {{.Values.sys.healthCheck.periodSec}}
+        requestPermits: 1
+        rate-limit:
+          enable: {{.Values.sys.healthCheck.rateLimit.enable}}
+        schedulingInterval: {{.Values.sys.healthCheck.schedulingInterval}}

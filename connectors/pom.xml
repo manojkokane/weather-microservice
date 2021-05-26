@@ -11,5 +11,11 @@
 
     <artifactId>connectors</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.terena.interview.solution.weather</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

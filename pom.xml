@@ -89,6 +89,16 @@
 				<artifactId>startup</artifactId>
 				<version>${project.parent}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.terena.interview.solution.weather</groupId>
+				<artifactId>common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.terena.interview.solution.weather</groupId>
+				<artifactId>connectors</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

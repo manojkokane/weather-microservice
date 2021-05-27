@@ -1,4 +1,4 @@
-package com.tenera.interview.solution.weather.integration.test;
+package com.tenera.interview.solution.weather.integration.test.config;
 
 import com.tenera.interview.solution.weather.integration.test.config.TestRestConfig;
 import io.restassured.RestAssured;

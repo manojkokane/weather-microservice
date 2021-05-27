@@ -58,13 +58,14 @@ public class HistoryWeatherServiceImpl implements HistoryWeatherService {
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public List<QueryResultDTO> retrieveHistoricalDataFromDB(String location) {
 
+        log.info(String.format("Retrieving historical query data from DB for location %s: ", location));
         Sort sort = Sort.sort(WeatherQueryResult.class).by(WeatherQueryResult::getCreatedDate).descending();
         PageRequest pageRequest = PageRequest.of(0, Integer.valueOf(weatherServiceApplicationConfig.getHistoryCount()), sort);
         String city = ServiceUtil.getCityName(location);
 
-        List<WeatherQueryResult> recentFiveQueryResponses = weatherQueryResponseRepository.findRecentResponsesByQueryCity(city, pageRequest);
-        List<QueryResultDTO> queryResultDTOS = ServiceUtil.convertToQueryResultDTOList(recentFiveQueryResponses);
-        log.info("Retrieved last five queries from DB: " + recentFiveQueryResponses);
+        List<WeatherQueryResult> recentQueryResponses = weatherQueryResponseRepository.findRecentResponsesByQueryCity(city, pageRequest);
+        List<QueryResultDTO> queryResultDTOS = ServiceUtil.convertToQueryResultDTOList(recentQueryResponses);
+        log.info(String.format("Historical query data for location %s has been retrieved successfully %s: ", location, recentQueryResponses));
 
         return queryResultDTOS;
     }

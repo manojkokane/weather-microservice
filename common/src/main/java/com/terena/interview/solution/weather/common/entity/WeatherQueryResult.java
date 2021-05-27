@@ -8,6 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
+/**
+ * Entity class to store weather query results
+ */
 @Entity
 @Table(name = "weather_query")
 @Builder

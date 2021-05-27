@@ -1,13 +1,11 @@
 package com.tenera.interview.solution.weather.integration.test.config;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@Setter
 @Getter
 @PropertySource("classpath:test.properties")
 public class TestRestConfig {

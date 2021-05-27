@@ -6,6 +6,9 @@ import lombok.*;
 
 import java.util.List;
 
+/**
+ * Model/dto class for storing current weather data received from 3rd party OpenWeather service
+ */
 @Builder
 @Getter
 @Setter

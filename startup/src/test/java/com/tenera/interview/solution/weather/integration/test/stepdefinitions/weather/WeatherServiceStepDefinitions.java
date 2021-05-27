@@ -1,35 +1,19 @@
-package com.tenera.interview.solution.weather.integration.test.stepdefinitions;
+package com.tenera.interview.solution.weather.integration.test.stepdefinitions.weather;
 
-import com.tenera.interview.solution.weather.integration.test.TestRestClient;
-import com.tenera.interview.solution.weather.integration.test.config.TestRestConfig;
-import com.terena.interview.solution.weather.WeatherMicroserviceApplication;
+import com.tenera.interview.solution.weather.integration.test.stepdefinitions.AbstractStepDefinitions;
 import com.terena.interview.solution.weather.models.WeatherHistoryResponse;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.spring.CucumberContextConfiguration;
-import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Slf4j
-@CucumberContextConfiguration
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@ContextConfiguration(classes = {WeatherMicroserviceApplication.class, TestRestClient.class, TestRestConfig.class})
-public class WeatherServiceStepDefinitions {
 
-    @Autowired
-	private TestRestClient testRestClient;
+public class WeatherServiceStepDefinitions extends AbstractStepDefinitions {
 
-    Response response;
-    Response interimResponse;
 
     @Given("^ReST Client is setup$")
     public void rest_Client_is_setup() throws Throwable {

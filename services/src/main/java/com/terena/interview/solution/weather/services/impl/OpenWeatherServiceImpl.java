@@ -36,6 +36,7 @@ public class OpenWeatherServiceImpl implements OpenWeatherService {
      */
     @Override
     public CurrentWeatherDataDTO retrieveCurrentDataFromOpenWeather(String location, String xOpenWeatherApiKey) {
+
         log.info(String.format("Retrieving current weather data for location: ", location));
 
         String openWeatherUrl = ServiceUtil.getOpenWeatherUrl(weatherServiceApplicationConfig.getCurrentWeatherDataApiBaseUrl(), weatherServiceApplicationConfig.getWeatherDataApiVersion());
@@ -47,7 +48,6 @@ public class OpenWeatherServiceImpl implements OpenWeatherService {
         CurrentWeatherDataDTO currentWeatherDataDTO = (CurrentWeatherDataDTO) client.execute();
 
         log.info(String.format("Current weather data for location %s has been retrieved successfully: ", location));
-        log.debug(String.format("Current weather data for location %s is-> %s: ", location, currentWeatherDataDTO));
 
         return currentWeatherDataDTO;
     }

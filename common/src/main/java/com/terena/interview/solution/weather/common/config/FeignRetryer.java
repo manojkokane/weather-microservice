@@ -36,7 +36,8 @@ public class FeignRetryer implements Retryer {
         } catch(InterruptedException ex) {
 
         }
-        log.info("Retrying " + e.request().url() + " attempt " + attempt);
+        log.info(String.format("Retrying feign client request attempt : %d", attempt));
+        log.debug(String.format("Retrying ", e.request().url()));
     }
 
     @Override

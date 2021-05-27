@@ -16,7 +16,7 @@ public class FeignErrorDecoder implements ErrorDecoder {
 
     @Override
     public Exception decode(String s, Response response) {
-        log.error("An error occurred while consuming third party service", response.body().toString());
+        log.error("An error occurred while consuming third party service", response.reason());
         switch (response.status()) {
             case 400:
                 throw WeatherServiceException.builder()

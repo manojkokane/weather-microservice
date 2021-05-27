@@ -35,5 +35,4 @@ public class WeatherMicroserviceApplication {
 				.description(description)
 				.license(new License().name(license).url(contact)));
 	}
-
 }

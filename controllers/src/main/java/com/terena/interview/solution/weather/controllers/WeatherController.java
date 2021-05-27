@@ -8,6 +8,7 @@ import com.terena.interview.solution.weather.models.WeatherHistoryResponse;
 import com.terena.interview.solution.weather.models.WeatherResponse;
 import com.terena.interview.solution.weather.services.HistoryWeatherService;
 import com.terena.interview.solution.weather.services.OpenWeatherService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ import java.util.List;
  */
 @RestController
 @Validated
+@Slf4j
 public class WeatherController implements WeatherApi {
 
     private OpenWeatherService openWeatherService;
@@ -42,9 +44,11 @@ public class WeatherController implements WeatherApi {
      */
     @Override
     public ResponseEntity<WeatherResponse> getCurrentWeatherForCity(@NotNull @Pattern(regexp = "[a-zA-Z,]+") @Size(min = 2, max = 50) @Valid String location, String xOpenWeatherApiKey) {
+        log.info(String.format("Received a request to get current weather data for location ", location));
         CurrentWeatherDataDTO currentWeatherDataDTO = openWeatherService.retrieveCurrentDataFromOpenWeather(location, xOpenWeatherApiKey);
         WeatherResponse currentWeatherResponse = MapperUtil.mapToWeatherResponse(currentWeatherDataDTO);
-        historyWeatherService.storeCurrentWeatherResponseToDB(location, MapperUtil.mapToQueryResultDTO(location, currentWeatherResponse));
+        WeatherControllerHelper.storeCurrentWeatherResponseToDBAsync(historyWeatherService, location, MapperUtil.mapToQueryResultDTO(location, currentWeatherResponse));
+        log.info(String.format("Sending response back for current weather data request for location ", location));
         return ResponseEntity.ok(currentWeatherResponse);
     }
 
@@ -55,8 +59,10 @@ public class WeatherController implements WeatherApi {
      */
     @Override
     public ResponseEntity<WeatherHistoryResponse> getWeatherHistoryForCity(@NotNull @Pattern(regexp = "[a-zA-Z,]+") @Size(min = 2, max = 50) @Valid String location) {
+        log.info(String.format("Received a request to get historic weather data for location ", location));
         List<QueryResultDTO> weatherQueryResponseList = historyWeatherService.retrieveHistoricalDataFromDB(location);
         WeatherHistoryResponse historyResponse = MapperUtil.mapToHistoricWeatherResponse(weatherQueryResponseList);
+        log.info(String.format("Sending response back for historic weather data request for location ", location));
         return ResponseEntity.ok(historyResponse);
     }
 }

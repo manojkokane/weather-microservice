@@ -153,7 +153,7 @@ http://localhost:9090/api/v1/swagger-ui.html
      4. OpenWeatherService obtains a connection to 3rd party weather data service via OpenWeatherConnector. OpenWeatherConnector simply creates a client for feign proxy.
      5. OpenWeatherService then executes feign proxy client request and receives current weather data.
      6. Interim weather data is then passed on to WeatherController, which then maps it to the intended response model and sends back to the client.
-     7. Before sending response back to the client, WeatherController does send a request to HistoryWeatherService to save this data in H2 database for future reference e.g. while retrieving historic data.  
+     7. in Parallel, WeatherController does send a **aync request** to HistoryWeatherService to save this data in H2 database for future reference e.g. while retrieving historic data.  
         
     * #### Retrieve Historic Weather Data
     1. Client requests historic weather data via `GET /weather/history` API by providing `city` name as a input.
@@ -171,7 +171,7 @@ http://localhost:9090/api/v1/swagger-ui.html
         ```
      2. `startup` module will copy the executable jar to `doker/docker-stage` directory.
      3. `docker` module is solely responsible for building and pushing image to the repository server e.g. docker.io or nexus.
-     4. 'docker' module uses `io.spotify` plugin and `Dockerfile` to create an image and pushed it to the repository server.
+     4. `docker` module uses `io.spotify` plugin and `Dockerfile` to create an image and pushed it to the repository server.
     
 * ### CI CD and multi environment
 Currently microservice is well equipped to cope up with CI/CD tools like jenkins and multi environment support.

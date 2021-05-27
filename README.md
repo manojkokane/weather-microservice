@@ -36,7 +36,7 @@
                     <li><a href="#build-and-push-docker-image">Build and Push Docker Image</a></li>
                 </ul>
             </li>
-            <li><a href="#ci-cd">CI/CD and multi-environment</a></li>
+            <li><a href="#ci-cd-and-multi-environment">CI CD and multi environment</a></li>
         </ul>
     </li>
     <li><a href="#further-improvements">Further Improvements</a></li>
@@ -86,7 +86,7 @@ Please go through the below steps to have your local copy up and running.
   </servers>
   ```
 
-### Installation
+### Setup and Run
 
 1. Clone the weather-microservice repository
    ```sh
@@ -165,12 +165,15 @@ http://localhost:9090/api/v1/swagger-ui.html
     7. HistoryWeatherService sends interim result to WeatherController, which then maps it to intended response model and sends back to the client.
     
      * #### Build and Push Docker Image
-     1. Build microservice using `mvn clean install -DdeployDockerOnInstall -Ddocker.repo.user=<docker-user> -Dheader.openweather.key=<open-weather-api-key>`
+     1. Build microservice using below command:
+        ```sh
+        mvn clean install -DdeployDockerOnInstall -Ddocker.repo.user=<docker-user> -Dheader.openweather.key=<open-weather-api-key>
+        ```
      2. `startup` module will copy the executable jar to `doker/docker-stage` directory.
      3. `docker` module is solely responsible for building and pushing image to the repository server e.g. docker.io or nexus.
      4. 'docker' module uses `io.spotify` plugin and `Dockerfile` to create an image and pushed it to the repository server.
     
-* ### CI/CD and multi-environment
+* ### CI CD and multi environment
 Currently microservice is well equipped to cope up with CI/CD tools like jenkins and multi environment support.
 I have mostly worked with Jenkins and Helm (Kubernetes package manager) so I would be explaining here in that context.
 I have placed `env.properties`, `version.properties` and helm structure `helm/weather-microservice/` in the root folder of the microservice. This can be used by Jenkins to automate the build and deploy process based on current sprint.

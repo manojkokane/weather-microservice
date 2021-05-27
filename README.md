@@ -12,7 +12,7 @@
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
     <li>
-      <a href="#about-the-microservice">About Weather Microservice</a>
+      <a href="#about-weather-microservice">About Weather Microservice</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
       </ul>
@@ -21,12 +21,12 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#setup-and run">Setup and Run</a></li>
+        <li><a href="#setup-and-run">Setup and Run</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
     <li>
-        <a href="#approch">Approach</a>
+        <a href="#approach">Approach</a>
         <ul>
             <li>
                 <a href="#technical-implementation">Technical Implementation</a>
@@ -49,8 +49,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About Weather Microservice
 This is a potential implementation of weather microservice. Currently this microservice is responsible for the implementation of two major functionality:
-* <a href="#retrieve-current-weather-data">[Retrieve current weather data]()</a>
-* <a href="#retrieve-historic-weather-data">[Retrieve historic weather data]()</a>
+* <a href="#retrieve-current-weather-data">Retrieve current weather data</a>
+* <a href="#retrieve-historic-weather-data">Retrieve historic weather data</a>
 
 
 ### Built With

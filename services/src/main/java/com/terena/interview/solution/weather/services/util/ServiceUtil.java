@@ -7,6 +7,7 @@ import com.terena.interview.solution.weather.common.model.QueryResultDTO;
 import com.terena.interview.solution.weather.common.model.WeatherConditionDTO;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -78,6 +79,7 @@ public class ServiceUtil {
                 .responseTemp(queryResultDTO.getResponseTemp())
                 .responsePressure(queryResultDTO.getResponsePressure())
                 .responseUmbrella(queryResultDTO.getResponseUmbrella())
+                .createdDate(ZonedDateTime.now())
                 .build();
 
     }

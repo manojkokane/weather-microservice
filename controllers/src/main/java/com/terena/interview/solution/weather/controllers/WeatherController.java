@@ -44,11 +44,11 @@ public class WeatherController implements WeatherApi {
      */
     @Override
     public ResponseEntity<WeatherResponse> getCurrentWeatherForCity(@NotNull @Pattern(regexp = "[a-zA-Z,]+") @Size(min = 2, max = 50) @Valid String location, String xOpenWeatherApiKey) {
-        log.info(String.format("Received a request to get current weather data for location ", location));
+        log.info(String.format("Received a request to get current weather data for location %s", location));
         CurrentWeatherDataDTO currentWeatherDataDTO = openWeatherService.retrieveCurrentDataFromOpenWeather(location, xOpenWeatherApiKey);
         WeatherResponse currentWeatherResponse = MapperUtil.mapToWeatherResponse(currentWeatherDataDTO);
         WeatherControllerHelper.storeCurrentWeatherResponseToDBAsync(historyWeatherService, location, MapperUtil.mapToQueryResultDTO(location, currentWeatherResponse));
-        log.info(String.format("Sending response back for current weather data request for location ", location));
+        log.info(String.format("Sending response back for current weather data request for location %s", location));
         return ResponseEntity.ok(currentWeatherResponse);
     }
 
@@ -59,10 +59,10 @@ public class WeatherController implements WeatherApi {
      */
     @Override
     public ResponseEntity<WeatherHistoryResponse> getWeatherHistoryForCity(@NotNull @Pattern(regexp = "[a-zA-Z,]+") @Size(min = 2, max = 50) @Valid String location) {
-        log.info(String.format("Received a request to get historic weather data for location ", location));
+        log.info(String.format("Received a request to get historic weather data for location %s", location));
         List<QueryResultDTO> weatherQueryResponseList = historyWeatherService.retrieveHistoricalDataFromDB(location);
         WeatherHistoryResponse historyResponse = MapperUtil.mapToHistoricWeatherResponse(weatherQueryResponseList);
-        log.info(String.format("Sending response back for historic weather data request for location ", location));
+        log.info(String.format("Sending response back for historic weather data request for location %s", location));
         return ResponseEntity.ok(historyResponse);
     }
 }

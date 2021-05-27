@@ -108,7 +108,7 @@ Please go through the below steps to have your local copy up and running.
         
       ```sh
       mvn clean install -DdeployDockerOnInstall -Ddocker.repo.user=<docker-user> -Dheader.openweather.key=<open-weather-api-key>
-      docker run -p 9090:9090 <docker.repo.user>/weather-service:1.0.0
+      docker run -p 9090:9090 <docker.repo.user>/tenera-weather-service:1.0.0
       ```
      Use `-DskipTests=true` to skip the step execution.<br/>
      Maven argument `-Dheader.openweather.key=<open-weather-api-key>` is specifically used by integration test

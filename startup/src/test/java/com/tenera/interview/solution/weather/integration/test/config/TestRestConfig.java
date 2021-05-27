@@ -21,7 +21,7 @@ public class TestRestConfig {
 	@Value("${test.base.path}")
 	private String basePath;
 
-	@Value("${test.header.openweather.key}")
+	@Value("${header.openweather.key}")
 	private String headerOpenWeatherKey;
 
 	//endPoints

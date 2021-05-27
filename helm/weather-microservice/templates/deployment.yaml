@@ -72,7 +72,7 @@ spec:
         - name: JAVA_DEBUG_SUSPEND
           value: {{if .Values.jvm.debug.suspend}}'y'{{else}}'n'{{end}}
         - name: SPRING_ACTIVE_PROFILE
-          value: {{if eq (tpl .Values.developmentMode .) "true" }}dev{{else}}prod{{end}}
+          value: {{tpl .Values.springprofile .| quote}}
   ports:
     - containerPort: {{.Values.app.api.port}}
       name: transport

@@ -1,7 +1,8 @@
 namespace: terena
 namePrefix: "terena-"
 pullPolicy: IfNotPresent
-developmentMode: false
+springprofile: dev
+developmentMode: true
 
 services:
   api:
